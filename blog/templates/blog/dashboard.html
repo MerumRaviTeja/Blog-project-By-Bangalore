@@ -1,0 +1,60 @@
+{% extends "blog/base.html" %}
+{% load counts %}
+{% block content %}
+    <div class="container">
+
+        <!-- Show this section only for User Blog view -->
+        {% if first_name or last_name %}
+            <div class="jumbotron">
+                <h1>{{ first_name }} {{ last_name }} - Blog</h1>
+            </div>
+        {% endif %}
+
+        <!-- Show List of Posts -->
+        <div class="table">
+            <div class="row">
+        <div  class="starter-template col-sm-8">
+            {% if user.is_authenticated %}
+                {% for post in posts %}
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h1><a href="{% url 'blog:post' post.pk %}">{{ post.title }}</a></h1>
+                            <div> Created {{ post.pub_date }} by <a
+                                    href="{% url 'blog:user_posts' post.user.username %}">{{ post.user.username }}</a>
+
+                            </div>
+                        </div>
+                        <h5>Views:{{ post.pk|get_viewcount }} Comments:{{ post.pk|get_commentcount }} Likes:{{ post.pk|get_likecount }}</h5>
+                    </div>
+                {% endfor %}
+            {%endif%}
+        </div>
+        <div align="right col-sm-4">
+            <h1><a href="{% url 'blog:mostcommented' first_name last_name%}">Most Commented</a></h1>
+            <h1><a href="{% url 'blog:mostliked' first_name last_name%}">Most Liked</a></h1>
+            <h1><a href="{% url 'blog:mostviewed' first_name last_name%}">Most Viewed</a></h1>
+            <form type="get" action="{% url 'blog:searchblog' first_name%}" style="margin: 0">
+                <input  id="search_box" type="text" name="search_box"  placeholder="Search..." >
+                <button id="search_submit" type="submit" >Submit</button>
+            </form>
+        </div>
+            </div>
+        </div>
+        <div class="pagination">
+            {% if posts.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ posts.previous_page_number }}">previous</a>
+            {% endif %}
+
+            {% if posts.paginator.num_pages != 1 %}
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+            {% endif %}
+
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">next</a>
+                <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock content %}

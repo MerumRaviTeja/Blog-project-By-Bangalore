@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+<div id="content">
+    {% block content %}
+    <h3 align="center">Most Commented Your Blogs</h3><br>
+    {% if comment%}
+        {% for i in comment%}
+            <h4 align="center">{{i.title}} on {{i.pub_date}}</h4><br>
+        {%endfor%}
+    {%endif%}
+    {% endblock %}
+</div>
+

@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+{%load counts%}
+<div id="content">
+     {% block content %}
+     {%if blog_id%}
+          <h3 align="center">Most Liked Persons</h3><br>
+          {%for i in blog_id%}
+               {% for j in i|get_likes%}
+                    <h4 align="center">{{j.user}}</h4>
+               {%endfor%}
+          {%endfor%}
+          <h3 align="center">Most DisLiked Persons</h3><br>
+          {%for i in blog_id%}
+               {% for j in i|get_dislikes%}
+                    <h4 align="center">{{j.user}}</h4>
+               {%endfor%}
+          {%endfor%}
+          <h3 align="center">Most Commented Persons</h3><br>
+          {%for i in blog_id%}
+               {% for j in i|get_comments%}
+                    <h4 align="center">{{j.user}}</h4>
+               {%endfor%}
+          {%endfor%}
+     {% else %}
+                <h4 align="center">You Don't Have That Blog</h4>
+     {% endif %}
+     {% endblock %}
+
+</div>

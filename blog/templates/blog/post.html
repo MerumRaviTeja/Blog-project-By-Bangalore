@@ -1,0 +1,74 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+    <div class="container">
+
+        <!-- Post -->
+        <div class="jumbotron">
+
+            <!-- Post title -->
+            <h1>{{ post.title }}</h1>
+
+            <div> Created {{ post.pub_date }} by
+                <a href="{% url 'blog:user_posts' post.user.username %}">{{ post.id }}{{ post.user.username}}</a>
+            </div>
+
+            <!-- Post body -->
+            <h3>{{ post.body }}</h3>
+
+            <!-- Show Update and Delete button only if User is the owner of the Post -->
+            {% if post.user != user %}
+                <div class="row">
+
+                    <!-- Like button -->
+                    <a href="{% url 'blog:like_button' post.id post.title %}" class="col-md-2 pull-right">
+                        <button type="button" onclick="myFunction()" class="btn btn-primary btn-block">Like</button><br><p id="demo"></p>
+                    </a>
+
+                    <script>
+                    function myFunction() {
+                      document.getElementById("demo").innerHTML = "Liked";
+                    }
+                    </script>
+                    <!-- DisLike button -->
+                    <a href="{% url 'blog:dislike_button' post.id post.title %}" class="col-md-2 pull-right">
+                        <button type="button" onclick="myFunction1()" class="btn btn-primary btn-block">DisLike</button><br><p id="demo1"></p>
+                    </a>
+                     <script>
+                    function myFunction1() {
+                      document.getElementById("demo1").innerHTML = "DisLiked";
+                    }
+                    </script>
+
+                </div>
+            {% endif %}
+
+        </div>
+
+        <h2>Comments:</h2>
+        <!-- Comments -->
+        {% for comment in comments %}
+            <div class="well">
+
+                <div> Created {{ comment.pub_date }} by
+                    <a href="{% url 'blog:user_posts' comment.user.username %}">{{ comment.user.id }}{{ comment.user.username }}</a>
+                </div>
+
+                <!-- Comment body -->
+                <h3> {{ comment.body }}</h3>
+
+            </div>
+        {% endfor %}
+
+        <!-- Show Comment button only if User is authenticated -->
+        {% if user.is_authenticated %}
+
+            <!-- Comment button -->
+            <a href="{% url 'blog:create_comment' post.pk %}" class="col-md-2 pull-right">
+                <button type="button" class="btn btn-primary btn-block">Comment</button>
+            </a>
+
+        {% endif %}
+
+    </div>
+{% endblock content %}
