@@ -34,7 +34,7 @@ pickleshare==0.7.5
 Pillow==6.0.0
 prompt-toolkit==1.0.18
 protobuf==3.7.1
-Pygments==2.4.2
+Pygments==2.7.4
 PyGoogleVoice==0.5.2
 PyJWT==1.7.1
 pymongo==3.9.0
